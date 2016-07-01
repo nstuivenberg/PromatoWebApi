@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Xml.Linq;
 
 namespace PromatoWebAPI.Controllers
 {
@@ -12,7 +13,10 @@ namespace PromatoWebAPI.Controllers
     {
         Cirkel[] cirkels = new Cirkel[]
         {
-            new Cirkel {CirkelSvg = "<svg>yolo</svg>" }
+            new Cirkel
+            {
+                CirkelSvg ="<svg height='100' width='100'><circle cx='50' cy='50' r='40' stroke='black' stroke-width='3' fill='red' /></svg>"
+            }
         };
 
         /// <summary>
@@ -31,7 +35,7 @@ namespace PromatoWebAPI.Controllers
 
         //POST!
         [HttpPost]
-        public HttpResponseMessage MooieCirkel()
+        public HttpResponseMessage MooieCirkel([FromBody] string value)
         {
             var httpCirkel = cirkels.FirstOrDefault();
             if (httpCirkel == null)
@@ -45,12 +49,25 @@ namespace PromatoWebAPI.Controllers
             }
             var response = new HttpResponseMessage()
             {
-                Content = new StringContent(httpCirkel.CirkelSvg),
+                Content = new StringContent("POST: " + httpCirkel.CirkelSvg)
             };
 
 
             return response;
 
         }
+        /*
+        public HttpResponseMessage CirkelFour([FromBody] string value)
+        {
+
+            var response = new HttpResponseMessage()
+            {
+                Content = new StringContent("POST NIEUW: " + value)
+            };
+
+            return response;
+        }
+        */
+
     }
 }
